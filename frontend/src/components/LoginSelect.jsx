@@ -86,10 +86,10 @@ export default function LoginSelect({ onLogin }) {
         <p>AI-powered support agent with policy-precedence reasoning.<br />Select your account to continue.</p>
 
         <div className="login-label">Select User Account</div>
-        
+
         {/* Custom Select Dropdown */}
         <div className="dropdown-container" ref={dropdownRef}>
-          <div 
+          <div
             className={`dropdown-header ${isOpen ? 'open' : ''}`}
             onClick={() => setIsOpen(!isOpen)}
           >

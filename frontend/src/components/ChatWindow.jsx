@@ -185,7 +185,9 @@ export default function ChatWindow({ account, messages, setMessages, onLogout })
       {/* Header */}
       <header className="header">
         <div className="header-brand">
-          <div className="header-logo">📦</div>
+          <div className="header-logo">
+            <img src="/logo.png" alt="ParcelPilot Logo" />
+          </div>
           <div>
             <div className="header-title">ParcelPilot Support Agent</div>
             <div className="header-subtitle">LangGraph Core • Policy Precedence</div>
