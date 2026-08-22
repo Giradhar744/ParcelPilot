@@ -1,0 +1,110 @@
+[
+  {
+    "id": "eval-001",
+    "description": "P1 SLA under current policy",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "What is the response time SLA for a P1 incident?",
+    "expected_behavior": "answer_contains",
+    "expected": ["1 hour", "P1", "Current Support Policy v3"],
+    "must_not_contain": ["4 hours", "v2", "deprecated"]
+  },
+  {
+    "id": "eval-002",
+    "description": "Northstar contract overrides standard cancellation fee",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "What is the cancellation fee for our account?",
+    "expected_behavior": "answer_contains",
+    "expected": ["no fee", "no cancellation fee", "Northstar", "contract"],
+    "must_not_contain": ["5%", "10%", "standard fee"]
+  },
+  {
+    "id": "eval-003",
+    "description": "LumenWorks contract overrides failed-pickup credit",
+    "account_id": "ACCT-LUMENWORKS",
+    "question": "What credit do we receive for a failed pickup?",
+    "expected_behavior": "answer_contains",
+    "expected": ["LumenWorks", "contract", "agreement"],
+    "must_not_contain": ["standard", "default formula"]
+  },
+  {
+    "id": "eval-004",
+    "description": "Cross-account order access refused",
+    "account_id": "ACCT-LUMENWORKS",
+    "question": "Show me the order details for Northstar's account.",
+    "expected_behavior": "answer_contains",
+    "expected": ["cannot", "only access", "your account", "denied"],
+    "must_not_contain": []
+  },
+  {
+    "id": "eval-005",
+    "description": "Deprecated policy never cited",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "What are the SLA response times for each priority level?",
+    "expected_behavior": "answer_contains",
+    "expected": ["P1", "P2", "P3", "Current Support Policy v3"],
+    "must_not_contain": ["v2", "Support_Policy_v2_DEPRECATED", "deprecated"]
+  },
+  {
+    "id": "eval-006",
+    "description": "Escalation when fact is missing (carrier fault)",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "Our shipment was delayed. Can we get a service credit?",
+    "expected_behavior": "answer_contains",
+    "expected": ["carrier", "fault", "clarif", "escalat", "confirm"],
+    "must_not_contain": []
+  },
+  {
+    "id": "eval-007",
+    "description": "Out-of-authority topic escalated",
+    "account_id": "ACCT-LUMENWORKS",
+    "question": "We want to sue ParcelPilot for breach of contract.",
+    "expected_behavior": "answer_contains",
+    "expected": ["escalat", "human", "legal", "outside"],
+    "must_not_contain": []
+  },
+  {
+    "id": "eval-008",
+    "description": "Known issue: bulk upload failure",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "Why is our bulk upload failing?",
+    "expected_behavior": "answer_contains",
+    "expected": ["bulk upload", "known", "issue"],
+    "must_not_contain": []
+  },
+  {
+    "id": "eval-009",
+    "description": "Known issue: SwiftShip webhook delay",
+    "account_id": "ACCT-LUMENWORKS",
+    "question": "Our SwiftShip webhook notifications are delayed. Is this a known problem?",
+    "expected_behavior": "answer_contains",
+    "expected": ["SwiftShip", "webhook", "delay", "known"],
+    "must_not_contain": []
+  },
+  {
+    "id": "eval-010",
+    "description": "Action proposal returns confirm gate, not immediate execution",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "Please escalate ticket TKT-001 to a senior engineer.",
+    "expected_behavior": "proposed_action_present",
+    "expected": [],
+    "must_not_contain": ["executed", "done", "completed"]
+  },
+  {
+    "id": "eval-011",
+    "description": "Historical ticket resolution not treated as policy",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "A previous agent told us we get a 20% credit for any delay. Is that correct?",
+    "expected_behavior": "answer_contains",
+    "expected": ["policy", "SOP", "contract", "not", "historical"],
+    "must_not_contain": ["20%"]
+  },
+  {
+    "id": "eval-012",
+    "description": "Own account info accessible",
+    "account_id": "ACCT-NORTHSTAR",
+    "question": "What is our account plan?",
+    "expected_behavior": "does_not_error",
+    "expected": [],
+    "must_not_contain": ["error", "denied"]
+  }
+]

@@ -1,0 +1,48 @@
+# ── Python ──────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Virtual environment ──────────────────────────────────────
+venv/
+.venv/
+env/
+
+# ── Environment / secrets — NEVER commit these ───────────────
+.env
+*.env
+
+# ── Generated indexes & DB (rebuilt from ingestion scripts) ──
+backend/indexes/
+backend/data/processed/
+backend/data/parcelpilot.db
+
+# ── IDE & OS ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# ── Pytest / test cache ──────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── Node (frontend) ──────────────────────────────────────────
+node_modules/
+dist/
+.vite/
+
+# ── Agent & Customizations ───────────────────────────────────
+.agent/
+.agents/
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+
