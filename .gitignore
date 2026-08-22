@@ -19,9 +19,9 @@ env/
 *.env
 
 # ── Generated indexes & DB (rebuilt from ingestion scripts) ──
-backend/indexes/
-backend/data/processed/
-backend/data/parcelpilot.db
+# backend/indexes/
+# backend/data/processed/
+# backend/data/parcelpilot.db
 
 # ── IDE & OS ─────────────────────────────────────────────────
 .vscode/

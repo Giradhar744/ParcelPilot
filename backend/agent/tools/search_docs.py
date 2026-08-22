@@ -9,9 +9,8 @@ import json
 import pickle
 from pathlib import Path
 
-import faiss
+import os
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
 BASE = Path(__file__).parent.parent.parent  # backend/
 CHUNKS_FILE = BASE / "data" / "processed" / "chunks.json"
@@ -28,15 +27,33 @@ _faiss_index = None
 _faiss_ids: list[str] | None = None
 _bm25 = None
 _bm25_ids: list[str] | None = None
-_embed_model: SentenceTransformer | None = None
+_embed_model = None
+faiss = None  # Dynamically imported in _load()
 
 
 def _load():
-    global _chunks, _chunk_map, _faiss_index, _faiss_ids, _bm25, _bm25_ids, _embed_model
+    global _chunks, _chunk_map, _faiss_index, _faiss_ids, _bm25, _bm25_ids, _embed_model, faiss
 
     if _chunks is not None:
         return  # already loaded
 
+    # 1. Limit CPU/thread memory footprint of deep learning libs
+    os.environ["OMP_NUM_THREADS"] = "1"
+    os.environ["MKL_NUM_THREADS"] = "1"
+    os.environ["OPENBLAS_NUM_THREADS"] = "1"
+    os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+    os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+    # 2. Lazy imports to keep uvicorn startup extremely light
+    import faiss as faiss_module
+    faiss = faiss_module
+    
+    from sentence_transformers import SentenceTransformer
+    import torch
+    torch.set_num_threads(1)
+    torch.set_grad_enabled(False)
+
+    # 3. Load files
     with open(CHUNKS_FILE, encoding="utf-8") as f:
         _chunks = json.load(f)
     _chunk_map = {c["chunk_id"]: c for c in _chunks}
@@ -53,6 +70,7 @@ def _load():
     _embed_model = SentenceTransformer(EMBED_MODEL)
 
 
+
 # Map account_id to the specific agreement filename they are authorized to access.
 CONTRACT_MAP = {
     "ACCT-001": "05_Northstar_Logistics_Enterprise_Agreement.pdf",
@@ -66,6 +84,11 @@ def search_docs(query: str, account_id: str, top_k: int = TOP_K) -> list[dict]:
     and enforce account-scoping so that custom contracts belonging to other users are excluded.
     """
     _load()
+
+    global faiss
+    if faiss is None:
+        import faiss as faiss_module
+        faiss = faiss_module
 
     # ── Dense retrieval (FAISS) ──────────────────────────────────────────────
     q_vec = _embed_model.encode([query], convert_to_numpy=True).astype(np.float32)

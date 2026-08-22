@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 const LABELS = [
   'Thinking...',
   'Searching policies...',
-  'Fetching order data...',
+  'Fetching data...',
   'Comparing results...',
 ];
 

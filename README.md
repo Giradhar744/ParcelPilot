@@ -100,7 +100,7 @@ Retrieves document context from policies and contracts using a hybrid retrieval 
 
 ### 3. Dynamic LLM Fallback & Latency Optimization
 To prevent service downtime and API rate-limiting issues:
-*   Integrates a fallback chain: **Groq (Primary Llama 3.3)** ➡️ **NVIDIA NIM (Secondary Llama 3.3)**.
+*   Integrates a fallback chain: **Groq (Primary openai/gpt-oss-120b)** ➡️ **NVIDIA NIM (Secondary meta/llama-3.3-70b-instruct)**.
 *   **Swapping Tracker**: When the primary model fails (e.g. 429 Rate Limit), the fallback model immediately takes over, and the server thread-safely caches this preference. Subsequent requests go directly to the healthy provider first, avoiding unnecessary latency.
 
 ### 4. Explicit Confirmation Gate (State-Changing Actions)
@@ -201,3 +201,15 @@ Runs the test cases in `eval_cases.json` against the API to output a performance
 # Run from the workspace root directory:
 python eval/run_eval.py
 ```
+
+---
+
+## 🚀 Deployment & Troubleshooting Notes
+
+### ⚠️ Render Free Tier Out-Of-Memory (OOM)
+* **Problem**: When deploying the backend Web Service on the Render Free Tier (512MB RAM limit), the service would fail during the startup phase with an `Out of memory (used over 512Mi)` error.
+* **Root Cause**: Heavy ML libraries like `torch` (PyTorch) and `sentence-transformers` load large shared files into memory immediately upon module-level import. This exceeded the 512MB RAM threshold before `uvicorn` could bind to its port.
+* **Resolution (No `requirements.txt` changes)**:
+  1. **Lazy Loading**: Modified [`backend/agent/tools/search_docs.py`](file:///c:/Users/girdh/Desktop/CalQuity/backend/agent/tools/search_docs.py) to import `faiss` and `sentence-transformers` dynamically inside the tool's execution thread (`_load()` function) instead of globally. This keeps initial FastAPI startup memory under 100MB.
+  2. **Thread Limits**: Configured PyTorch to use a single execution thread (`OMP_NUM_THREADS = 1`) and disabled gradient calculation (`torch.set_grad_enabled(False)`), reducing active memory consumption to fit within the free tier bounds.
+

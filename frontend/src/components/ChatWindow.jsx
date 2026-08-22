@@ -6,8 +6,7 @@ const SUGGESTIONS = {
   'ACCT-001': [
     'What is our cancellation fee?',
     'Why is our bulk upload failing?',
-    'Our SwiftShip order still shows BOOKED after driver pickup. What should we do?',
-    'Please escalate ticket TKT-501 to a human support agent.',
+    'Our SwiftShip order still shows BOOKED after driver pickup. What should we do?'
   ],
   'ACCT-002': [
     'What credit do we receive for a failed pickup?',
@@ -202,7 +201,7 @@ export default function ChatWindow({ account, messages, setMessages, onLogout })
 
       {/* Split Layout for Internal Admin vs. Single Chat for normal Customer */}
       <div className={isInternal ? "internal-split-layout" : "internal-chat-area"}>
-        
+
         {/* Main Chat Flow (left side if split) */}
         <div className="internal-chat-area">
           <main className="messages-area">
