@@ -81,7 +81,9 @@ export default function LoginSelect({ onLogin }) {
   return (
     <div className="login-overlay">
       <div className="login-card">
-        <div className="login-logo">📦</div>
+        <div className="login-logo">
+          <img src="/logo.png" alt="ParcelPilot Logo" />
+        </div>
         <h1>ParcelPilot Support</h1>
         <p>AI-powered support agent with policy-precedence reasoning.<br />Select your account to continue.</p>
 
