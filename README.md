@@ -1,6 +1,6 @@
 # ParcelPilot AI Support Agent
 
-An end-to-end B2B AI Customer Support and Operations platform for **ParcelPilot** (a fictional shipping/logistics product), built for the CalQuity AI Agent Assessment. 
+An end-to-end B2B AI Customer Support and Operations platform for **ParcelPilot** (a fictional shipping/logistics product).
 
 It contains a customer-facing support chatbot, an internal support/operations dashboard, and a stateful LangGraph agent loop with document retrieval, SQL database access control, and a safety confirmation gate.
 
